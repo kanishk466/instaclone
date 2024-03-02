@@ -1,3 +1,4 @@
+// Import required modules for the application
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -5,10 +6,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressSession = require('express-session');
 
+// Import routes for the application
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const passport = require('passport');
 
+
+// Initialize the express application
 var app = express();
 
 // view engine setup
@@ -20,17 +24,25 @@ app.use(expressSession({
   saveUninitialized: false,
   secret: "heyheyehhdd"
 }));
+
+// Initialize passport and attach it to the express app
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Configure passport to use serialization and deserialization functions from usersRouter
 passport.serializeUser(usersRouter.serializeUser());
 passport.deserializeUser(usersRouter.deserializeUser());
 
+
+// Middleware setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// Routes setup
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

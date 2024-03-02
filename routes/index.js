@@ -204,17 +204,23 @@ router.post(
 // POST
 
 router.post("/register", function (req, res) {
+
+// yahan pr value get karenge hum user se  
   const user = new userModel({
     username: req.body.username,
     email: req.body.email,
     name: req.body.name,
   });
 
+// yahan pr hum account create kar rahe hai
+
   userModel.register(user, req.body.password).then(function (registereduser) {
     passport.authenticate("local")(req, res, function () {
       res.redirect("/profile");
     });
   });
+
+
 });
 
 router.post(
